@@ -2,7 +2,7 @@
 
 ## メタ情報
 
-- approved: false
+- approved: true
 - version: 1.0.0
 - created: 2026-02-10
 - updated: 2026-02-10
