@@ -1,24 +1,24 @@
 ---
 milestones:
   total: 3
-  completed: 1
+  completed: 3
   in_progress: 0
-  overall_progress: 33
+  overall_progress: 100
 ---
 
 # マイルストーン管理
 
 **プロジェクト**: cursor-times-agent
-**最終更新**: 2026-02-10 22:30
+**最終更新**: 2026-02-11 03:00
 
 ---
 
 ## 全体スケジュール
 
 ```
-【Phase 1: 基盤構築】     2026-02-10 〜 2026-02-14
-【Phase 2: コア機能】     2026-02-12 〜 2026-02-17
-【Phase 3: 拡張・改善】   2026-02-17 〜 2026-02-21
+【Phase 1: 基盤構築】     2026-02-10 〜 2026-02-14  ✅ 前倒し完了(02/10)
+【Phase 2: コア機能】     2026-02-12 〜 2026-02-17  ✅ 前倒し完了(02/10)
+【Phase 3: 拡張・改善】   2026-02-17 〜 2026-02-21  ✅ 前倒し完了(02/10)
 ```
 
 ---
@@ -28,10 +28,10 @@ milestones:
 | マイルストーン | 期限 | ステータス | 進捗率 |
 |--------------|------|-----------|--------|
 | M1: 基盤構築 - Skill/Rule配置・人格承認 | 2026-02-14 | ✅ 完了 | 100% |
-| M2: コア機能 - 自動投稿動作確認 | 2026-02-17 | ⬜ 未着手 | 0% |
-| M3: 拡張・改善 - 全機能完成・ドキュメント整備 | 2026-02-21 | ⬜ 未着手 | 0% |
+| M2: コア機能 - 自動投稿動作確認 | 2026-02-17 | ✅ 完了 | 100% |
+| M3: 拡張・改善 - 全機能完成・ドキュメント整備 | 2026-02-21 | ✅ 完了 | 100% |
 
-**全体進捗**: 33%
+**全体進捗**: 100% 🎉
 
 ---
 
@@ -46,10 +46,13 @@ milestones:
 - [x] Cursor Skill（SKILL.md）が配置され動作確認済み
 - [x] グローバルルール（自動トリガー）が配置済み（dev/.cursor/rules/）
 - [x] 投稿フォーマットが設計済み（SKILL.md Step3 + personaサンプル）
+- [x] マルチ人格対応（project_path + member_name インターフェース）
+- [x] ルール最小化 + Subagent化（92行→15行、cursor-agents-skills連携）
 
 ### 成果物
-- [x] `~/.cursor/skills/cursor-times-agent/SKILL.md`
-- [x] `dev/.cursor/rules/cursor-times-agent.mdc`（alwaysApply）
+- [x] `~/.cursor/agents/cursor-times-agent.md`（サブエージェント定義）
+- [x] `~/.cursor/skills/cursor-times-agent/SKILL.md` + `references/`
+- [x] `dev/.cursor/rules/cursor-times-agent.mdc`（alwaysApply、15行）
 - [x] `persona/default.md`（人格設定ファイル、承認済み）
 
 ---
@@ -57,36 +60,40 @@ milestones:
 ## M2: コア機能 - 自動投稿動作確認
 
 **期限**: 2026-02-17
-**ステータス**: ⬜ 未着手
+**ステータス**: ✅ 完了（2026-02-10 前倒し完了）
 
 ### 完了条件
-- [ ] タスク完了時に振り返り所感がSlackに自動投稿される
-- [ ] セッション履歴の分析・要約が適切に行われる
-- [ ] 人格設定に基づくカジュアルな文体で投稿される
-- [ ] 最新情報キャッチアップ投稿が動作する
+- [x] タスク完了時に振り返り所感がSlackに自動投稿される
+- [x] セッション履歴の分析・要約が適切に行われる
+- [x] 人格設定に基づくカジュアルな文体で投稿される（改善前後テスト比較で品質確認）
+- [x] 最新情報キャッチアップ投稿が動作する（post_type=catchup）
+- [x] slack-fast-mcp v0.1.0 display_name 対応
 
 ### 成果物
-- [ ] 振り返り投稿ロジック実装済みSkill
-- [ ] 最新情報キャッチアップ機能
-- [ ] 実際のSlack投稿サンプル
+- [x] サブエージェントE2Eテスト成功（curl経由Slack投稿確認）
+- [x] 投稿文生成プロンプト改善（口調バリエーション・カジュアルさ強化）
+- [x] post_type対応（task_complete/catchup/progress/break）
+- [x] `docs/slack-fast-mcp-integration.md`（連携ガイド）
 
 ---
 
 ## M3: 拡張・改善 - 全機能完成・ドキュメント整備
 
 **期限**: 2026-02-21
-**ステータス**: ⬜ 未着手
+**ステータス**: ✅ 完了（2026-02-10 前倒し完了）
 
 ### 完了条件
-- [ ] ランダム間隔の進捗投稿が動作する
-- [ ] 環境自動セットアップが機能する
-- [ ] セットアップガイドが完成している
-- [ ] X(Twitter)連携の調査・設計が完了
+- [x] ランダム間隔の進捗投稿が動作する（post_type=progress/break）
+- [x] 環境自動セットアップが機能する（scripts/setup.sh）
+- [x] セットアップガイドが完成している（docs/setup-guide.md 全面改訂）
+- [x] X(Twitter)連携の調査・設計が完了（調査のみ、実装は将来要望時）
 
 ### 成果物
-- [ ] 進捗投稿機能
-- [ ] `docs/setup-guide.md`
-- [ ] X(Twitter)連携設計書
+- [x] `scripts/setup.sh`（対話式7ステップセットアップ）
+- [x] `scripts/find-channel-id.sh`（チャンネルID検索ヘルパー）
+- [x] `scripts/test-connection.sh`（接続・投稿テスト）
+- [x] `docs/setup-guide.md`（全面改訂版）
+- [x] X連携調査結果（API料金体系、x-twitter-mcp-server、リスク評価）
 
 ---
 
