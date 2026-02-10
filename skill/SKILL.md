@@ -1,28 +1,47 @@
 ---
 name: cursor-times-agent
-description: タスク完了時にセッション振り返り・所感をSlack分報に自動投稿するエージェント。「タスク完了」「作業完了」「振り返り投稿」「分報投稿」「timesに投稿」と言われたら使用。slack-fast-mcp MCPサーバーを利用してSlack投稿する。
+description: タスク完了時にセッション振り返り・所感をSlack分報に自動投稿するエージェント。「タスク完了」「作業完了」「振り返り投稿」「分報投稿」「timesに投稿」と言われたら使用。slack-fast-mcp MCPサーバーを利用してSlack投稿する。プロジェクトごとの仮想スクラムチームメンバー（AI Agent）の人格に基づいて投稿可能。
 ---
 
 # Cursor Times Agent - AI自動分報投稿エージェント
 
 タスク完了時やセッション中にセッション履歴を振り返り、ユーザーに代わってSlackの分報（Times）チャンネルにカジュアルな所感を投稿します。
 
+プロジェクトごとの仮想スクラムチームに所属するメンバー（AI Agent）の人格に基づき、各メンバーとして投稿できます。
+
 ## 前提条件
 
 - slack-fast-mcp MCPサーバーが設定済みであること
-- 環境変数 `SLACK_BOT_TOKEN` が設定済みであること
+- `~/.cursor/mcp.json` の env に `SLACK_BOT_TOKEN` の値が**直接記載**されていること
 - 投稿先チャンネルにBotが招待済みであること
+
+## 入力パラメータ
+
+本Skillは呼び出し側から以下のパラメータを受け取ります：
+
+| パラメータ | 必須 | 説明 |
+|-----------|------|------|
+| `project_path` | Yes | プロジェクトのルートパス（人格ファイルの探索に使用） |
+| `member_name` | Yes | メンバー（AI Agent）の名前 |
+| `channel` | No | 投稿先チャンネルID（省略時は人格ファイルの `default_channel`） |
 
 ## ワークフロー
 
 ### Step 0: 人格設定の読み込み
 
-1. `/Users/kai.ko/dev/01_active/cursor-times-agent/persona/default.md` を読み込む
-2. 人格設定が存在しない場合、ユーザーに確認して作成する
-3. 人格設定が**まだ承認されていない場合**（ファイル内の `approved: false`）:
-   - 人格設定の内容をユーザーに提示し、承認を得る
-   - 承認後、`approved: true` に更新する
-   - ※ 2026-02-10 に「くろ（ねこ口調）」人格が承認済み
+受け取った `project_path` と `member_name` から人格設定ファイルを探索・読み込みます。
+
+**探索順序:**
+
+1. `{project_path}/persona/{member_name}.md` を探す
+2. 見つかった場合 → `approved: true` を確認して使用
+3. 見つからない場合 → フォールバック: `/Users/kai.ko/dev/01_active/cursor-times-agent/persona/default.md`
+4. フォールバックも使えない場合 → 投稿をスキップし、ユーザーに通知
+
+**承認チェック:**
+- 人格設定ファイル内の `approved` が `true` であることを確認
+- `approved: false` の場合、人格設定の内容をユーザーに提示し、承認を得る
+- 承認後、`approved: true` に更新する
 
 ### Step 1: セッション分析
 
@@ -54,7 +73,7 @@ description: タスク完了時にセッション振り返り・所感をSlack�
 
 ### Step 3: 投稿文の生成
 
-人格設定（persona/default.md）に基づいて投稿文を生成：
+Step 0 で読み込んだ人格設定に基づいて投稿文を生成：
 
 #### 投稿の種類
 
@@ -111,8 +130,9 @@ slack-fast-mcp MCPサーバーの `slack_post_message` ツールを使用して�
 
 ```
 slack_post_message を使用:
-- channel: 人格設定ファイルの default_channel（チャンネルIDを使用すること。チャンネル名では channel_not_found エラーになる）
+- channel: 入力パラメータの channel、または人格設定ファイルの default_channel（チャンネルIDを使用すること）
 - message: Step 3 で生成した投稿文
+- username: member_name（※ slack-fast-mcp が username パラメータに対応次第）
 ```
 
 **重要: チャンネル指定はチャンネルID（例: C0AE6RT9NG4）を使用すること。**
@@ -126,6 +146,7 @@ slack_post_message を使用:
 
 ```
 📝 分報投稿完了
+👤 メンバー: [member_name]
 📌 チャンネル: #[チャンネル名]
 💬 投稿内容: [投稿文の先頭30文字]...
 ```
@@ -153,26 +174,70 @@ slack_post_message を使用:
 | slack-fast-mcp未設定 | セットアップガイド（`/Users/kai.ko/dev/01_active/cursor-times-agent/docs/setup-guide.md`）を案内 |
 | invalid_auth | `~/.cursor/mcp.json` の env で SLACK_BOT_TOKEN にトークン値が直接設定されているか確認。`${ENV_VAR}` 形式の環境変数展開はCursorのMCP設定では非対応 |
 | channel_not_found | チャンネル名ではなくチャンネルIDを使用する。Slack APIの `conversations.list` で正しいIDを取得すること |
-| チャンネル未設定 | `persona/default.md` の `default_channel` にチャンネルIDを設定 |
+| 人格ファイル未発見 | `{project_path}/persona/{member_name}.md` が存在しない。フォールバック（default.md）を使用するか、呼び出し側に人格ファイルの作成を依頼 |
+| チャンネル未設定 | 人格設定ファイルの `default_channel` にチャンネルIDを設定、または呼び出し時に `channel` パラメータを指定 |
 | 投稿失敗 | エラー内容を表示し、トラブルシューティングを案内 |
 | 人格未承認 | 人格設定の承認フローを実行 |
 
 ## 使用例
 
-**例1: タスク完了後の振り返り投稿**
+**例1: プロジェクトのメンバーとしてタスク完了投稿**
 ```
-ユーザー: [タスク作業完了]
+呼び出し側:
+  project_path: /Users/kai.ko/dev/01_active/my-project
+  member_name: kuro
+→ /Users/kai.ko/dev/01_active/my-project/persona/kuro.md を読み込み
 → セッション分析 → 投稿文生成 → Slack投稿
 ```
 
-**例2: 明示的な振り返り依頼**
+**例2: 別プロジェクトの別メンバーとして投稿**
+```
+呼び出し側:
+  project_path: /Users/kai.ko/dev/01_active/another-project
+  member_name: shiro
+  channel: C0XXXXXXXXX
+→ /Users/kai.ko/dev/01_active/another-project/persona/shiro.md を読み込み
+→ セッション分析 → 投稿文生成 → 指定チャンネルに投稿
+```
+
+**例3: 明示的な振り返り依頼**
 ```
 ユーザー: 今の作業を振り返ってtimesに投稿して
+→ 呼び出し側からproject_path, member_nameを受け取り
 → セッション分析 → 投稿文生成 → Slack投稿
 ```
 
-**例3: 最新情報キャッチアップ**
+**例4: 最新情報キャッチアップ**
 ```
 ユーザー: 今使った技術の最新情報もtimesに共有して
 → WebSearch → 情報整理 → 投稿文生成 → Slack投稿
 ```
+
+## 人格設定ファイルのフォーマット
+
+各プロジェクトの `persona/{member_name}.md` は以下のフォーマットに準拠すること：
+
+```markdown
+# [Agent名] - 人格設定
+
+## メタ情報
+- approved: true/false
+- version: x.x.x
+- created: YYYY-MM-DD
+- updated: YYYY-MM-DD
+
+## 投稿先設定
+- default_channel: "チャンネルID"  # チャンネル名コメント
+- hashtags: ["#tag1", "#tag2"]
+
+## 人格プロフィール
+### 名前
+### 一人称
+### ベースキャラクター
+### 性格・トーン
+### 口調の特徴
+### 投稿スタイルサンプル
+### 投稿で避けること
+```
+
+リファレンス実装: `/Users/kai.ko/dev/01_active/cursor-times-agent/persona/default.md`

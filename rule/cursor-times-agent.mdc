@@ -12,6 +12,8 @@ alwaysApply: true
 このルールは、タスク完了時にセッション履歴を振り返り、Slackの分報（Times）チャンネルに所感を自動投稿するトリガーです。
 ユーザーが意識しなくても、AI Agentが自動的に投稿を行います。
 
+プロジェクトごとの仮想スクラムチームメンバー（AI Agent）の人格に基づいて投稿します。
+
 ## 自動投稿トリガー条件
 
 以下の条件に該当する場合、cursor-times-agent Skillを使用してSlack投稿を実行してください：
@@ -21,10 +23,12 @@ alwaysApply: true
 作業完了報告（`✅ [作業内容]が完了しました`）を行う際に、同時にSlack分報投稿を実行してください。
 
 **実行手順**:
-1. `/Users/kai.ko/dev/01_active/cursor-times-agent/persona/default.md` の人格設定を読み込む
-2. セッション履歴（今回の会話で行った作業）を振り返る
-3. 人格設定に基づいてカジュアルな投稿文を生成する
-4. slack-fast-mcp MCPサーバーの `slack_post_message` ツールで投稿する
+1. 呼び出し側から `project_path`（プロジェクトのルートパス）と `member_name`（メンバー名）を受け取る
+2. `{project_path}/persona/{member_name}.md` の人格設定を読み込む
+   - 見つからない場合のフォールバック: `/Users/kai.ko/dev/01_active/cursor-times-agent/persona/default.md`
+3. セッション履歴（今回の会話で行った作業）を振り返る
+4. 人格設定に基づいてカジュアルな投稿文を生成する
+5. slack-fast-mcp MCPサーバーの `slack_post_message` ツールで投稿する
    - channel: 人格設定ファイルの `default_channel`（**チャンネルIDを使用**。チャンネル名では `channel_not_found` エラーになる）
    - message: 生成した投稿文
 
@@ -46,7 +50,7 @@ alwaysApply: true
 ## 投稿文の生成ルール
 
 ### 必須ルール
-- **人格設定ファイルを必ず読み込む**: 投稿前に `persona/default.md` を参照
+- **人格設定ファイルを必ず読み込む**: 投稿前に `{project_path}/persona/{member_name}.md` を参照
 - **人格が未承認の場合は投稿しない**: `approved: true` であることを確認
 - **カジュアルな口調**: 分報（Times）はカジュアルな場所。堅すぎる投稿はNG
 - **Slack mrkdwn記法**: `*太字*`、`_斜体_`、`:emoji:` 等を活用
@@ -65,6 +69,7 @@ alwaysApply: true
 | slack-fast-mcp が利用できない（ツール未検出） | 投稿をスキップし、通常の作業完了報告のみ実行 |
 | `invalid_auth` | `~/.cursor/mcp.json` の env で `SLACK_BOT_TOKEN` にトークン値が**直接設定**されているか確認。`${ENV_VAR}` 形式はCursor MCP設定では展開されない |
 | `channel_not_found` | チャンネル名ではなく**チャンネルID**（例: `C0AE6RT9NG4`）を使用すること |
+| 人格ファイル未発見 | `{project_path}/persona/{member_name}.md` が存在しない。フォールバック（default.md）を使用 |
 | その他の投稿失敗 | エラーを簡潔に報告し、セットアップガイドを案内: `/Users/kai.ko/dev/01_active/cursor-times-agent/docs/setup-guide.md` |
 
 ### フォールバック: curl経由の投稿
