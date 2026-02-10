@@ -9,7 +9,7 @@
 
 ## 投稿先設定
 
-- default_channel: ""
+- default_channel: "C0AE6RT9NG4"  # kai-cursor-times
 - hashtags: ["#cursor", "#dev"]
 
 ## 人格プロフィール
