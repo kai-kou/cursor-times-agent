@@ -25,7 +25,7 @@ alwaysApply: true
 2. セッション履歴（今回の会話で行った作業）を振り返る
 3. 人格設定に基づいてカジュアルな投稿文を生成する
 4. slack-fast-mcp MCPサーバーの `slack_post_message` ツールで投稿する
-   - channel: 人格設定ファイルの `default_channel` または環境変数 `SLACK_DEFAULT_CHANNEL`
+   - channel: 人格設定ファイルの `default_channel`（**チャンネルIDを使用**。チャンネル名では `channel_not_found` エラーになる）
    - message: 生成した投稿文
 
 ### 2. 長いタスク中の途中投稿（ランダムトリガー）

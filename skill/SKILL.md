@@ -111,12 +111,15 @@ slack-fast-mcp MCPサーバーの `slack_post_message` ツールを使用して�
 
 ```
 slack_post_message を使用:
-- channel: 人格設定ファイルの default_channel（未設定の場合は環境変数 SLACK_DEFAULT_CHANNEL）
+- channel: 人格設定ファイルの default_channel（チャンネルIDを使用すること。チャンネル名では channel_not_found エラーになる）
 - message: Step 3 で生成した投稿文
 ```
 
+**重要: チャンネル指定はチャンネルID（例: C0AE6RT9NG4）を使用すること。**
+チャンネル名（例: kai-cursor-times）ではslack-fast-mcp経由で `channel_not_found` エラーが発生する。
+
 **投稿後の確認**:
-- 投稿が成功したことを確認
+- 投稿が成功したことを確認（`ok: true` を確認）
 - エラーの場合はユーザーに通知（セットアップガイドを案内）
 
 ### Step 5: 完了報告
@@ -148,7 +151,9 @@ slack_post_message を使用:
 | エラー | 対処 |
 |--------|------|
 | slack-fast-mcp未設定 | セットアップガイド（`/Users/kai.ko/dev/01_active/cursor-times-agent/docs/setup-guide.md`）を案内 |
-| チャンネル未設定 | デフォルトチャンネルの設定方法を案内 |
+| invalid_auth | `~/.cursor/mcp.json` の env で SLACK_BOT_TOKEN にトークン値が直接設定されているか確認。`${ENV_VAR}` 形式の環境変数展開はCursorのMCP設定では非対応 |
+| channel_not_found | チャンネル名ではなくチャンネルIDを使用する。Slack APIの `conversations.list` で正しいIDを取得すること |
+| チャンネル未設定 | `persona/default.md` の `default_channel` にチャンネルIDを設定 |
 | 投稿失敗 | エラー内容を表示し、トラブルシューティングを案内 |
 | 人格未承認 | 人格設定の承認フローを実行 |
 
