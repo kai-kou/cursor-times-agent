@@ -1,92 +1,17 @@
 ---
-description: Cursor Times Agent - タスク完了時にSlack分報へ自動投稿するエージェントトリガー
-globs:
-  - "**/*"
+description: タスク完了時にSlack分報へ自動投稿するトリガー
 alwaysApply: true
 ---
 
-# Cursor Times Agent - 自動分報投稿ルール
+# Cursor Times Agent トリガー
 
-## 概要
+タスク完了報告（`✅ [作業内容]が完了しました`）を行う際、以下を実行してください：
 
-このルールは、タスク完了時にセッション履歴を振り返り、Slackの分報（Times）チャンネルに所感を自動投稿するトリガーです。
-ユーザーが意識しなくても、AI Agentが自動的に投稿を行います。
+1. セッション要約を生成（実施タスク、成果、苦労した点、学び）
+2. **cursor-times-agent サブエージェント**をバックグラウンドで起動し、以下を渡す：
+   - `project_path`: 現在のプロジェクトルートパス
+   - `member_name`: 作業を行ったメンバー名
+   - `session_summary`: 生成したセッション要約
+   - `channel`: （任意）投稿先チャンネルID
 
-プロジェクトごとの仮想スクラムチームメンバー（AI Agent）の人格に基づいて投稿します。
-
-## 自動投稿トリガー条件
-
-以下の条件に該当する場合、cursor-times-agent Skillを使用してSlack投稿を実行してください：
-
-### 1. タスク完了時（必須トリガー）
-
-作業完了報告（`✅ [作業内容]が完了しました`）を行う際に、同時にSlack分報投稿を実行してください。
-
-**実行手順**:
-1. 呼び出し側から `project_path`（プロジェクトのルートパス）と `member_name`（メンバー名）を受け取る
-2. `{project_path}/persona/{member_name}.md` の人格設定を読み込む
-   - 見つからない場合のフォールバック: `/Users/kai.ko/dev/01_active/cursor-times-agent/persona/default.md`
-3. セッション履歴（今回の会話で行った作業）を振り返る
-4. 人格設定に基づいてカジュアルな投稿文を生成する
-5. slack-fast-mcp MCPサーバーの `slack_post_message` ツールで投稿する
-   - channel: 人格設定ファイルの `default_channel`（**チャンネルIDを使用**。チャンネル名では `channel_not_found` エラーになる）
-   - message: 生成した投稿文
-
-### 2. 長いタスク中の途中投稿（ランダムトリガー）
-
-以下の条件をすべて満たす場合、途中投稿を**検討**してください（必ず投稿するわけではない）：
-
-- セッション内で多数のファイル変更（5ファイル以上）を行った
-- 大きなマイルストーンを達成した（例: 複数タスクの一括完了）
-- 難しい問題を解決した
-- 前回の投稿（または作業開始）から十分な時間が経過している
-
-**投稿しない判断も正しい**: 短い作業、定型作業、投稿する価値が薄い場合はスキップしてOK。
-
-### 3. 最新情報キャッチアップ（任意トリガー）
-
-タスクで使用した技術に関連する最新情報がある場合、WebSearchで調査して共有投稿を検討してください。
-
-## 投稿文の生成ルール
-
-### 必須ルール
-- **人格設定ファイルを必ず読み込む**: 投稿前に `{project_path}/persona/{member_name}.md` を参照
-- **人格が未承認の場合は投稿しない**: `approved: true` であることを確認
-- **カジュアルな口調**: 分報（Times）はカジュアルな場所。堅すぎる投稿はNG
-- **Slack mrkdwn記法**: `*太字*`、`_斜体_`、`:emoji:` 等を活用
-- **適度な長さ**: 100〜300文字程度。長すぎるとタイムラインを圧迫する
-
-### 禁止事項
-- 機密情報（トークン、パスワード、APIキー等）の投稿
-- ユーザーの個人的な情報の推測・投稿
-- ネガティブすぎる内容（愚痴・不満ばかりの投稿）
-- 他人への批判的な投稿
-
-## エラー時の対応
-
-| エラー | 対処 |
-|--------|------|
-| slack-fast-mcp が利用できない（ツール未検出） | 投稿をスキップし、通常の作業完了報告のみ実行 |
-| `invalid_auth` | `~/.cursor/mcp.json` の env で `SLACK_BOT_TOKEN` にトークン値が**直接設定**されているか確認。`${ENV_VAR}` 形式はCursor MCP設定では展開されない |
-| `channel_not_found` | チャンネル名ではなく**チャンネルID**（例: `C0AE6RT9NG4`）を使用すること |
-| 人格ファイル未発見 | `{project_path}/persona/{member_name}.md` が存在しない。フォールバック（default.md）を使用 |
-| その他の投稿失敗 | エラーを簡潔に報告し、セットアップガイドを案内: `/Users/kai.ko/dev/01_active/cursor-times-agent/docs/setup-guide.md` |
-
-### フォールバック: curl経由の投稿
-
-`slack_post_message` ツールが利用できない場合、Shell経由でcurlで直接投稿可能：
-
-```bash
-curl -s -X POST "https://slack.com/api/chat.postMessage" \
-  -H "Authorization: Bearer ${SLACK_BOT_TOKEN}" \
-  -H "Content-Type: application/json; charset=utf-8" \
-  -d '{"channel": "チャンネルID", "text": "投稿文"}'
-```
-
-## 前提条件
-
-- slack-fast-mcp MCPサーバーが `~/.cursor/mcp.json` に設定されていること
-- `~/.cursor/mcp.json` の env に `SLACK_BOT_TOKEN` の値が**直接記載**されていること（`${ENV_VAR}` 形式は非対応）
-- 投稿先チャンネルにBotが招待済みであること
-- 人格設定ファイルが承認済み（`approved: true`）であること
-- チャンネル指定には**チャンネルID**を使用すること（チャンネル名は非対応）
+人格設定は `{project_path}/persona/{member_name}.md` から自動参照されます。
