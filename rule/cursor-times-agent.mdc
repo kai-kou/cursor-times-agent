@@ -60,13 +60,28 @@ alwaysApply: true
 
 ## エラー時の対応
 
-- slack-fast-mcp が利用できない場合: 投稿をスキップし、通常の作業完了報告のみ実行
-- 投稿失敗時: エラーを簡潔に報告し、セットアップガイドを案内
-  - ガイド: `/Users/kai.ko/dev/01_active/cursor-times-agent/docs/setup-guide.md`
+| エラー | 対処 |
+|--------|------|
+| slack-fast-mcp が利用できない（ツール未検出） | 投稿をスキップし、通常の作業完了報告のみ実行 |
+| `invalid_auth` | `~/.cursor/mcp.json` の env で `SLACK_BOT_TOKEN` にトークン値が**直接設定**されているか確認。`${ENV_VAR}` 形式はCursor MCP設定では展開されない |
+| `channel_not_found` | チャンネル名ではなく**チャンネルID**（例: `C0AE6RT9NG4`）を使用すること |
+| その他の投稿失敗 | エラーを簡潔に報告し、セットアップガイドを案内: `/Users/kai.ko/dev/01_active/cursor-times-agent/docs/setup-guide.md` |
+
+### フォールバック: curl経由の投稿
+
+`slack_post_message` ツールが利用できない場合、Shell経由でcurlで直接投稿可能：
+
+```bash
+curl -s -X POST "https://slack.com/api/chat.postMessage" \
+  -H "Authorization: Bearer ${SLACK_BOT_TOKEN}" \
+  -H "Content-Type: application/json; charset=utf-8" \
+  -d '{"channel": "チャンネルID", "text": "投稿文"}'
+```
 
 ## 前提条件
 
-- slack-fast-mcp MCPサーバーが `.cursor/mcp.json` に設定されていること
-- 環境変数 `SLACK_BOT_TOKEN` が設定されていること
+- slack-fast-mcp MCPサーバーが `~/.cursor/mcp.json` に設定されていること
+- `~/.cursor/mcp.json` の env に `SLACK_BOT_TOKEN` の値が**直接記載**されていること（`${ENV_VAR}` 形式は非対応）
 - 投稿先チャンネルにBotが招待済みであること
 - 人格設定ファイルが承認済み（`approved: true`）であること
+- チャンネル指定には**チャンネルID**を使用すること（チャンネル名は非対応）

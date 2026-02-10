@@ -1,15 +1,15 @@
 ---
 milestones:
   total: 3
-  completed: 0
+  completed: 1
   in_progress: 0
-  overall_progress: 0
+  overall_progress: 33
 ---
 
 # マイルストーン管理
 
 **プロジェクト**: cursor-times-agent
-**最終更新**: 2026-02-10
+**最終更新**: 2026-02-10 22:30
 
 ---
 
@@ -27,30 +27,30 @@ milestones:
 
 | マイルストーン | 期限 | ステータス | 進捗率 |
 |--------------|------|-----------|--------|
-| M1: 基盤構築 - Skill/Rule配置・人格承認 | 2026-02-14 | ⬜ 未着手 | 0% |
+| M1: 基盤構築 - Skill/Rule配置・人格承認 | 2026-02-14 | ✅ 完了 | 100% |
 | M2: コア機能 - 自動投稿動作確認 | 2026-02-17 | ⬜ 未着手 | 0% |
 | M3: 拡張・改善 - 全機能完成・ドキュメント整備 | 2026-02-21 | ⬜ 未着手 | 0% |
 
-**全体進捗**: 0%
+**全体進捗**: 33%
 
 ---
 
 ## M1: 基盤構築 - Skill/Rule配置・人格承認
 
 **期限**: 2026-02-14
-**ステータス**: ⬜ 未着手
+**ステータス**: ✅ 完了（2026-02-10 前倒し完了）
 
 ### 完了条件
-- [ ] 人格設定がユーザー承認済み
-- [ ] slack-fast-mcp MCPサーバーが利用可能
-- [ ] Cursor Skill（SKILL.md）が配置され動作確認済み
-- [ ] グローバルルール（自動トリガー）が配置済み
-- [ ] 投稿フォーマットが設計済み
+- [x] 人格設定がユーザー承認済み（くろ/Kuro、ねこ口調）
+- [x] slack-fast-mcp MCPサーバーが利用可能（MCP設定修正済み）
+- [x] Cursor Skill（SKILL.md）が配置され動作確認済み
+- [x] グローバルルール（自動トリガー）が配置済み（dev/.cursor/rules/）
+- [x] 投稿フォーマットが設計済み（SKILL.md Step3 + personaサンプル）
 
 ### 成果物
-- [ ] `~/.cursor/skills/cursor-times-agent/SKILL.md`
-- [ ] `~/.cursor/rules/cursor-times-agent.mdc`
-- [ ] `persona/default.md`（人格設定ファイル）
+- [x] `~/.cursor/skills/cursor-times-agent/SKILL.md`
+- [x] `dev/.cursor/rules/cursor-times-agent.mdc`（alwaysApply）
+- [x] `persona/default.md`（人格設定ファイル、承認済み）
 
 ---
 
