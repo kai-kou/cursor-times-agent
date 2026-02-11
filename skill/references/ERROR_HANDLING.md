@@ -28,14 +28,18 @@ curl -s "https://slack.com/api/conversations.list?types=public_channel,private_c
 
 **原因**: slack-fast-mcp MCPサーバーが起動していない、またはCursor再起動が必要
 **対処**:
-1. curlフォールバックを使用:
+1. Cursorを再起動してMCPサーバーを再接続
+2. `~/.cursor/mcp.json` にslack-fast-mcpの設定があるか確認
+3. 再起動後もMCPが使えない場合、curlフォールバックを使用:
 ```bash
 curl -s -X POST "https://slack.com/api/chat.postMessage" \
   -H "Authorization: Bearer ${SLACK_BOT_TOKEN}" \
   -H "Content-Type: application/json; charset=utf-8" \
   -d '{"channel": "チャンネルID", "text": "投稿文"}'
 ```
-2. レスポンスの `ok` フィールドで成功確認
+4. レスポンスの `ok` フィールドで成功確認
+
+**補足**: Skill経由・Subagent経由のいずれでもMCPツールは利用可能（2026-02-11検証済み）。MCPが使えない場合は環境設定の問題である可能性が高い。
 
 ### 4. 人格ファイル未発見
 

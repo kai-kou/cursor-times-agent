@@ -69,14 +69,24 @@ cursor-times-agentのメイン投稿に使用。
 
 ## 投稿方法の優先順位
 
-サブエージェントからMCPツールは利用不可のため、以下の優先順位で投稿する：
+Skill経由・Subagent経由のいずれでもMCPツールが利用可能（2026-02-11検証済み）。
 
-1. **curl（主要方法）**: Shell経由でSlack APIに直接投稿
-   - `display_name` は自前でメッセージ末尾に `#member_name` を追加
-2. **MCP（親エージェント経由）**: Skill呼び出し時のみ利用可能
-   - `display_name` パラメータでmember_nameを渡す
+1. **MCP（推奨）**: `slack_post_message` MCPツールで投稿
+   - `display_name` パラメータで `member_name` を渡すと、自動で末尾に `#member_name` が付与される
+   - Skill経由・Subagent経由の両方で利用可能
+2. **curlフォールバック**: MCPツールが検出できない環境でのみ使用
+   - `display_name` は自前でメッセージ末尾に `#member_name` を追加する必要あり
 
-### curl投稿テンプレート
+### MCP投稿（推奨）
+
+```
+slack_post_message:
+  channel: C0AE6RT9NG4  (チャンネルID)
+  message: "投稿文\n#cursor #dev"
+  display_name: kuro  (自動で #kuro が付与される)
+```
+
+### curlフォールバック（MCPが使えない場合のみ）
 
 ```bash
 curl -s -X POST "https://slack.com/api/chat.postMessage" \
@@ -86,6 +96,12 @@ curl -s -X POST "https://slack.com/api/chat.postMessage" \
 ```
 
 ## display_name ハッシュタグ付与ルール
+
+### MCP利用時（自動）
+
+`display_name` パラメータを指定すると、slack-fast-mcp が `appendDisplayNameTag` で自動的にメッセージ末尾に `#member_name` を付与する。手動での付与は不要。
+
+### curlフォールバック時（手動）
 
 slack-fast-mcp の `appendDisplayNameTag` と同じロジックを手動で適用：
 
@@ -133,6 +149,6 @@ slack-fast-mcp の新バージョンがリリースされた場合、以下を�
 
 1. **リリースノート確認**: `gh release list --repo kai-kou/slack-fast-mcp`
 2. **新ツール/パラメータ**: このドキュメントの「利用可能なMCPツール」を更新
-3. **エージェント定義更新**: `cursor-agents-skills/agents/cursor-times-agent.md` を更新
+3. **エージェント定義更新**: `agent/cursor-times-agent.md` および `skill/SKILL.md` を更新
 4. **バイナリ更新**: 必要に応じてバイナリを差し替え
 5. **対応バージョン更新**: このドキュメント冒頭の対応バージョンを更新

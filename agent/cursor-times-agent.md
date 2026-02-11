@@ -89,16 +89,29 @@ session_summaryに含まれる技術キーワードでWebSearchを実行し、�
 
 ### Step 3: Slack投稿
 
-Shell経由でcurlでSlack APIに直接投稿する（サブエージェントからMCPツールは利用不可のため）。
+**MCPツール（推奨）** を使用してSlackに投稿する。MCPが利用できない場合のみcurlフォールバックを使用する。
 
-**display_name ハッシュタグの付与**:
+#### 方法1: MCP投稿（推奨）
 
-curl投稿の場合、slack-fast-mcp の `display_name` 機能が使えないため、自前でメンバー識別タグを付与する：
+`slack_post_message` MCPツールを使用して投稿する：
+
+- `channel`: 入力パラメータの `channel`、または人格設定の `default_channel`（チャンネルID）
+- `message`: Step 2 で生成した投稿文
+- `display_name`: `member_name`（自動で末尾に `#member_name` が付与される）
+
+**重要**:
+- チャンネル指定は**チャンネルID**（例: `C0AE6RT9NG4`）を使用すること
+- レスポンスの `ok` フィールドで成功を確認する
+- `display_name` パラメータにより、slack-fast-mcp が自動でメンバー識別タグ `#member_name` を付与する（手動付与は不要）
+
+#### 方法2: curlフォールバック（MCPが利用できない場合のみ）
+
+MCPツールが見つからない・利用不可の場合に限り、Shell経由でcurlでSlack APIに直接投稿する。
+
+**display_name ハッシュタグの手動付与**（curl利用時のみ必要）:
 - 投稿文の末尾にハッシュタグ行がある場合 → 同じ行に `#member_name` を追記
 - ハッシュタグ行がない場合 → 改行して `#member_name` を追加
 - 例: `#cursor #dev` → `#cursor #dev #kuro`
-
-**投稿コマンド**:
 
 ```bash
 curl -s -X POST "https://slack.com/api/chat.postMessage" \
@@ -107,19 +120,8 @@ curl -s -X POST "https://slack.com/api/chat.postMessage" \
   -d '{"channel": "チャンネルID", "text": "投稿文"}'
 ```
 
-- **channel**: 入力パラメータの `channel`、または人格設定の `default_channel`（チャンネルID）
-- **text**: Step 2 で生成した投稿文（display_nameタグ付与済み）
-- **重要**: チャンネル指定は**チャンネルID**（例: `C0AE6RT9NG4`）を使用すること
-- レスポンスの `ok` フィールドで成功を確認する
+- `SLACK_BOT_TOKEN` は `~/.cursor/mcp.json` の env から取得するか、環境変数を使用
 - 投稿文中に `"` や改行がある場合は適切にエスケープすること
-
-**代替手段（MCP利用可能な場合）**:
-
-親エージェントから直接呼び出される場合、`slack_post_message` MCPツールが使える可能性がある。
-利用可能なら以下のパラメータで呼び出す：
-- `channel`: チャンネルID
-- `message`: 投稿文
-- `display_name`: member_name（自動で末尾に `#member_name` が付与される）
 
 ### Step 4: 結果を返す
 
@@ -153,7 +155,8 @@ curl -s -X POST "https://slack.com/api/chat.postMessage" \
 | `approved: false` | 投稿を中止し、「人格が未承認」のエラーを返す |
 | `invalid_auth` | `~/.cursor/mcp.json` の env で `SLACK_BOT_TOKEN` に値が直接設定されているか確認 |
 | `channel_not_found` | チャンネルIDを使用しているか確認 |
-| MCP未利用 | curlフォールバックを試行 |
+| MCPツール未検出 | curlフォールバック（Step 3 方法2）を試行。`SLACK_BOT_TOKEN` 環境変数が必要 |
+| MCP投稿失敗 | レスポンスの `ok` を確認。失敗時はcurlフォールバックを試行 |
 
 ## 前提条件
 

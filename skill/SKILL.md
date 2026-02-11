@@ -141,7 +141,7 @@ slack-fast-mcp MCPサーバーの `slack_post_message` ツールを使用して�
 slack_post_message を使用:
 - channel: 入力パラメータの channel、または人格設定ファイルの default_channel（チャンネルIDを使用すること）
 - message: Step 3 で生成した投稿文
-- username: member_name（※ slack-fast-mcp が username パラメータに対応次第）
+- display_name: member_name（自動で末尾に #member_name が付与される）
 ```
 
 **重要: チャンネル指定はチャンネルID（例: C0AE6RT9NG4）を使用すること。**
