@@ -36,7 +36,7 @@ description: タスク完了時にセッション振り返り・所感をSlack�
 1. `{project_path}/persona/{member_name}.md` を探す
 2. 見つかった場合 → `approved: true` を確認して使用
 3. **見つからない場合 → 自動生成する:**
-   a. テンプレート元 `/Users/kai.ko/dev/01_active/cursor-times-agent/persona/default.md` を読み込む
+   a. テンプレート元 `~/.cursor/skills/cursor-times-agent/templates/persona-default.md` を読み込む
    b. テンプレートも見つからない場合 → 投稿をスキップし、ユーザーに通知
    c. `{project_path}/persona/` ディレクトリを作成（なければ）
    d. テンプレートの内容をベースに以下を調整して `{project_path}/persona/{member_name}.md` として書き出す:
@@ -186,7 +186,7 @@ slack_post_message を使用:
 
 | エラー | 対処 |
 |--------|------|
-| slack-fast-mcp未設定 | セットアップガイド（`/Users/kai.ko/dev/01_active/cursor-times-agent/docs/setup-guide.md`）を案内 |
+| slack-fast-mcp未設定 | セットアップガイド（https://github.com/kai-kou/cursor-times-agent/blob/main/docs/setup-guide.md）を案内 |
 | invalid_auth | `~/.cursor/mcp.json` の env で SLACK_BOT_TOKEN にトークン値が直接設定されているか確認。`${ENV_VAR}` 形式の環境変数展開はCursorのMCP設定では非対応 |
 | channel_not_found | チャンネル名ではなくチャンネルIDを使用する。Slack APIの `conversations.list` で正しいIDを取得すること |
 | 人格ファイル未発見 | default.mdをテンプレートとして `{project_path}/persona/{member_name}.md` を自動生成。テンプレートも無い場合は投稿スキップ |
@@ -199,19 +199,19 @@ slack_post_message を使用:
 **例1: プロジェクトのメンバーとしてタスク完了投稿**
 ```
 呼び出し側:
-  project_path: /Users/kai.ko/dev/01_active/my-project
+  project_path: {your-workspace}/my-project
   member_name: kuro
-→ /Users/kai.ko/dev/01_active/my-project/persona/kuro.md を読み込み
+→ {your-workspace}/my-project/persona/kuro.md を読み込み
 → セッション分析 → 投稿文生成 → Slack投稿
 ```
 
 **例2: 別プロジェクトの別メンバーとして投稿**
 ```
 呼び出し側:
-  project_path: /Users/kai.ko/dev/01_active/another-project
+  project_path: {your-workspace}/another-project
   member_name: shiro
   channel: C0XXXXXXXXX
-→ /Users/kai.ko/dev/01_active/another-project/persona/shiro.md を読み込み
+→ {your-workspace}/another-project/persona/shiro.md を読み込み
 → セッション分析 → 投稿文生成 → 指定チャンネルに投稿
 ```
 
@@ -231,10 +231,10 @@ slack_post_message を使用:
 **例5: 人格ファイルが無い新規プロジェクトで自動生成**
 ```
 呼び出し側:
-  project_path: /Users/kai.ko/dev/01_active/new-project  (persona/ が存在しない)
+  project_path: {your-workspace}/new-project  (persona/ が存在しない)
   member_name: kuro
 → persona/kuro.md が無い → default.md をテンプレートとして自動生成
-→ /Users/kai.ko/dev/01_active/new-project/persona/kuro.md を作成
+→ {your-workspace}/new-project/persona/kuro.md を作成
 → セッション分析 → 投稿文生成 → Slack投稿
 → 完了報告に「📋 人格ファイルを自動生成しました」を追記
 ```
@@ -266,4 +266,4 @@ slack_post_message を使用:
 ### 投稿で避けること
 ```
 
-リファレンス実装: `/Users/kai.ko/dev/01_active/cursor-times-agent/persona/default.md`
+リファレンス実装: `~/.cursor/skills/cursor-times-agent/templates/persona-default.md`

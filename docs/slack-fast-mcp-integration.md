@@ -12,7 +12,7 @@ cursor-times-agent は [slack-fast-mcp](https://github.com/kai-kou/slack-fast-mc
 | slack-fast-mcp | v0.1.0 |
 | 最終確認日 | 2026-02-11 |
 | リポジトリ | https://github.com/kai-kou/slack-fast-mcp |
-| バイナリパス | `/Users/kai.ko/dev/01_active/slack-fast-mcp/slack-fast-mcp` |
+| バイナリパス | `$(command -v slack-fast-mcp)` or `/usr/local/bin/slack-fast-mcp` |
 
 ## 利用可能なMCPツール
 
@@ -109,7 +109,7 @@ slack-fast-mcp の `appendDisplayNameTag` と同じロジックを手動で適�
 {
   "mcpServers": {
     "slack-fast-mcp": {
-      "command": "/Users/kai.ko/dev/01_active/slack-fast-mcp/slack-fast-mcp",
+      "command": "/usr/local/bin/slack-fast-mcp",
       "args": [],
       "env": {
         "SLACK_BOT_TOKEN": "xoxb-xxxxxx（直接記載、${ENV_VAR}形式は非対応）"

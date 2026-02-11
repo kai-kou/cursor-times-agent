@@ -1,7 +1,7 @@
 ---
 milestones:
-  total: 4
-  completed: 4
+  total: 5
+  completed: 5
   in_progress: 0
   overall_progress: 100
 ---
@@ -9,17 +9,18 @@ milestones:
 # マイルストーン管理
 
 **プロジェクト**: cursor-times-agent
-**最終更新**: 2026-02-11 18:00
+**最終更新**: 2026-02-11 16:30
 
 ---
 
 ## 全体スケジュール
 
 ```
-【Phase 1: 基盤構築】     2026-02-10 〜 2026-02-14  ✅ 前倒し完了(02/10)
-【Phase 2: コア機能】     2026-02-12 〜 2026-02-17  ✅ 前倒し完了(02/10)
-【Phase 3: 拡張・改善】   2026-02-17 〜 2026-02-21  ✅ 前倒し完了(02/10)
-【Phase 4: UX改善】       2026-02-11                ✅ 完了(02/11)
+【Phase 1: 基盤構築】       2026-02-10 〜 2026-02-14  ✅ 前倒し完了(02/10)
+【Phase 2: コア機能】       2026-02-12 〜 2026-02-17  ✅ 前倒し完了(02/10)
+【Phase 3: 拡張・改善】     2026-02-17 〜 2026-02-21  ✅ 前倒し完了(02/10)
+【Phase 4: UX改善】         2026-02-11                ✅ 完了(02/11)
+【Phase 5: 単体パッケージ化】2026-02-11                ✅ 完了(02/11)
 ```
 
 ---
@@ -32,6 +33,7 @@ milestones:
 | M2: コア機能 - 自動投稿動作確認 | 2026-02-17 | ✅ 完了 | 100% |
 | M3: 拡張・改善 - 全機能完成・ドキュメント整備 | 2026-02-21 | ✅ 完了 | 100% |
 | M4: UX改善 - 人格ファイル自動生成 | 2026-02-11 | ✅ 完了 | 100% |
+| M5: 単体パッケージ化 - git clone→即利用可能 | 2026-02-11 | ✅ 完了 | 100% |
 
 **全体進捗**: 100% 🎉
 
@@ -117,6 +119,28 @@ milestones:
 - [x] `skill/SKILL.md` + `~/.cursor/skills/cursor-times-agent/SKILL.md`（Step 0 自動生成対応）
 - [x] `references/ERROR_HANDLING.md`（自動生成手順追記）
 - [x] `references/PERSONA_FORMAT.md`（テンプレート用途・調整内容追記）
+
+---
+
+## M5: 単体パッケージ化 - git clone→即利用可能
+
+**期限**: 2026-02-11
+**ステータス**: ✅ 完了（2026-02-11）
+
+### 完了条件
+- [x] Subagent定義・references/ がリポジトリに含まれている（ソースオブトゥルース化）
+- [x] ハードコードパスが除去され、ポータブルなパス参照になっている
+- [x] deploy.sh でリポジトリから ~/.cursor/ への一括デプロイが可能
+- [x] sync-to-agents-skills.sh でcursor-agents-skillsへの同期が可能
+- [x] README.md に Quick Start（git clone → deploy → 即利用）が記載されている
+- [x] 管理ドキュメント（tasks.md / milestones.md）が更新されている
+
+### 成果物
+- [x] `agent/cursor-times-agent.md`（Subagent定義、リポジトリに追加）
+- [x] `skill/references/`（ERROR_HANDLING.md, PERSONA_FORMAT.md, POSTING_FORMAT.md）
+- [x] `scripts/deploy.sh`（dry-run・バックアップ・対話式デプロイ）
+- [x] `scripts/sync-to-agents-skills.sh`（diff表示・自動コミット対応）
+- [x] `README.md`（Quick Start中心に全面改訂）
 
 ---
 

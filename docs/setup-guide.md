@@ -124,7 +124,7 @@ slack-fast-mcpバイナリの入手方法：
 **方法A: デフォルト人格を使用**
 
 デフォルト人格「くろ（Kuro）」がすでに用意されています：
-`/Users/kai.ko/dev/01_active/cursor-times-agent/persona/default.md`
+リポジトリの `persona/default.md`（デプロイ後は `~/.cursor/skills/cursor-times-agent/templates/persona-default.md`）
 
 **方法B: プロジェクト固有の人格を作成**
 
