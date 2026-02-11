@@ -5,11 +5,11 @@ project:
   status: active
   priority: high
   created: "2026-02-10"
-  updated: "2026-02-11"
+  updated: "2026-02-11T18:00"
   owner: "kai.ko"
   tags: [cursor, slack, times, agent, subagent, skill, auto-posting, mcp]
   summary: "タスク完了時にセッション振り返り・所感をSlack分報に自動投稿するCursor Subagent"
-  next_action: "T103/T104 コア機能残り・Phase 3"
+  next_action: "TRY-014 references/一元化 / TRY-015 チャンネルID自動取得"
 ---
 
 # Cursor Times Agent - AI自動分報投稿エージェント

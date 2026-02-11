@@ -27,7 +27,7 @@ description: タスク完了時にセッション振り返り・所感をSlack�
 
 ## ワークフロー
 
-### Step 0: 人格設定の読み込み
+### Step 0: 人格設定の読み込み（自動生成対応）
 
 受け取った `project_path` と `member_name` から人格設定ファイルを探索・読み込みます。
 
@@ -35,8 +35,17 @@ description: タスク完了時にセッション振り返り・所感をSlack�
 
 1. `{project_path}/persona/{member_name}.md` を探す
 2. 見つかった場合 → `approved: true` を確認して使用
-3. 見つからない場合 → フォールバック: `/Users/kai.ko/dev/01_active/cursor-times-agent/persona/default.md`
-4. フォールバックも使えない場合 → 投稿をスキップし、ユーザーに通知
+3. **見つからない場合 → 自動生成する:**
+   a. テンプレート元 `/Users/kai.ko/dev/01_active/cursor-times-agent/persona/default.md` を読み込む
+   b. テンプレートも見つからない場合 → 投稿をスキップし、ユーザーに通知
+   c. `{project_path}/persona/` ディレクトリを作成（なければ）
+   d. テンプレートの内容をベースに以下を調整して `{project_path}/persona/{member_name}.md` として書き出す:
+      - `hashtags` にプロジェクト名（project_pathの末尾ディレクトリ名）を `#project-name` として追加
+      - `created` / `updated` を当日日付に更新
+      - `approved: true` のまま（即投稿可能）
+      - それ以外の人格設定（名前・口調・スタイル等）はテンプレートのまま
+   e. 自動生成した人格ファイルを使用して投稿を継続
+   f. Step 5 の完了報告に自動生成の通知を追記
 
 **承認チェック:**
 - 人格設定ファイル内の `approved` が `true` であることを確認
@@ -151,6 +160,12 @@ slack_post_message を使用:
 💬 投稿内容: [投稿文の先頭30文字]...
 ```
 
+人格ファイルを自動生成した場合は以下も追記:
+```
+📋 人格ファイルを自動生成しました: {project_path}/persona/{member_name}.md
+   カスタマイズする場合は上記ファイルを編集してください。
+```
+
 ## 進捗・息抜き投稿のランダム性ルール
 
 長いタスク（推定30分以上の作業）の場合、以下のルールで途中投稿を判断：
@@ -174,7 +189,7 @@ slack_post_message を使用:
 | slack-fast-mcp未設定 | セットアップガイド（`/Users/kai.ko/dev/01_active/cursor-times-agent/docs/setup-guide.md`）を案内 |
 | invalid_auth | `~/.cursor/mcp.json` の env で SLACK_BOT_TOKEN にトークン値が直接設定されているか確認。`${ENV_VAR}` 形式の環境変数展開はCursorのMCP設定では非対応 |
 | channel_not_found | チャンネル名ではなくチャンネルIDを使用する。Slack APIの `conversations.list` で正しいIDを取得すること |
-| 人格ファイル未発見 | `{project_path}/persona/{member_name}.md` が存在しない。フォールバック（default.md）を使用するか、呼び出し側に人格ファイルの作成を依頼 |
+| 人格ファイル未発見 | default.mdをテンプレートとして `{project_path}/persona/{member_name}.md` を自動生成。テンプレートも無い場合は投稿スキップ |
 | チャンネル未設定 | 人格設定ファイルの `default_channel` にチャンネルIDを設定、または呼び出し時に `channel` パラメータを指定 |
 | 投稿失敗 | エラー内容を表示し、トラブルシューティングを案内 |
 | 人格未承認 | 人格設定の承認フローを実行 |
@@ -211,6 +226,17 @@ slack_post_message を使用:
 ```
 ユーザー: 今使った技術の最新情報もtimesに共有して
 → WebSearch → 情報整理 → 投稿文生成 → Slack投稿
+```
+
+**例5: 人格ファイルが無い新規プロジェクトで自動生成**
+```
+呼び出し側:
+  project_path: /Users/kai.ko/dev/01_active/new-project  (persona/ が存在しない)
+  member_name: kuro
+→ persona/kuro.md が無い → default.md をテンプレートとして自動生成
+→ /Users/kai.ko/dev/01_active/new-project/persona/kuro.md を作成
+→ セッション分析 → 投稿文生成 → Slack投稿
+→ 完了報告に「📋 人格ファイルを自動生成しました」を追記
 ```
 
 ## 人格設定ファイルのフォーマット

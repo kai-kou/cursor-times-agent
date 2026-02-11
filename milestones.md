@@ -1,7 +1,7 @@
 ---
 milestones:
-  total: 3
-  completed: 3
+  total: 4
+  completed: 4
   in_progress: 0
   overall_progress: 100
 ---
@@ -9,7 +9,7 @@ milestones:
 # マイルストーン管理
 
 **プロジェクト**: cursor-times-agent
-**最終更新**: 2026-02-11 03:00
+**最終更新**: 2026-02-11 18:00
 
 ---
 
@@ -19,6 +19,7 @@ milestones:
 【Phase 1: 基盤構築】     2026-02-10 〜 2026-02-14  ✅ 前倒し完了(02/10)
 【Phase 2: コア機能】     2026-02-12 〜 2026-02-17  ✅ 前倒し完了(02/10)
 【Phase 3: 拡張・改善】   2026-02-17 〜 2026-02-21  ✅ 前倒し完了(02/10)
+【Phase 4: UX改善】       2026-02-11                ✅ 完了(02/11)
 ```
 
 ---
@@ -30,6 +31,7 @@ milestones:
 | M1: 基盤構築 - Skill/Rule配置・人格承認 | 2026-02-14 | ✅ 完了 | 100% |
 | M2: コア機能 - 自動投稿動作確認 | 2026-02-17 | ✅ 完了 | 100% |
 | M3: 拡張・改善 - 全機能完成・ドキュメント整備 | 2026-02-21 | ✅ 完了 | 100% |
+| M4: UX改善 - 人格ファイル自動生成 | 2026-02-11 | ✅ 完了 | 100% |
 
 **全体進捗**: 100% 🎉
 
@@ -94,6 +96,27 @@ milestones:
 - [x] `scripts/test-connection.sh`（接続・投稿テスト）
 - [x] `docs/setup-guide.md`（全面改訂版）
 - [x] X連携調査結果（API料金体系、x-twitter-mcp-server、リスク評価）
+
+---
+
+## M4: UX改善 - 人格ファイル自動生成
+
+**期限**: 2026-02-11
+**ステータス**: ✅ 完了（2026-02-11）
+
+### 完了条件
+- [x] persona未発見時にdefault.mdをテンプレートとして自動生成される
+- [x] Subagent定義（Step 1）に自動生成ロジックが組み込まれている
+- [x] Skill定義（Step 0）に自動生成ロジックが組み込まれている
+- [x] エラーハンドリングドキュメントが「自動生成」に更新されている
+- [x] PERSONA_FORMAT.mdにテンプレート用途が明記されている
+- [x] ~/.cursor/ への同期デプロイが完了している
+
+### 成果物
+- [x] `~/.cursor/agents/cursor-times-agent.md`（Step 1 自動生成対応）
+- [x] `skill/SKILL.md` + `~/.cursor/skills/cursor-times-agent/SKILL.md`（Step 0 自動生成対応）
+- [x] `references/ERROR_HANDLING.md`（自動生成手順追記）
+- [x] `references/PERSONA_FORMAT.md`（テンプレート用途・調整内容追記）
 
 ---
 
