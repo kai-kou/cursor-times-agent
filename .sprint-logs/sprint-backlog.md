@@ -1,12 +1,12 @@
 ---
 sprint:
-  id: "SPRINT-002"
+  id: "SPRINT-003"
   project: "cursor-times-agent"
   date: "2026-02-11"
   status: "completed"
 backlog:
-  total_tasks: 6
-  total_sp: 13
+  total_tasks: 4
+  total_sp: 6
   completed_tasks: 0
   completed_sp: 0
   sp_completion_rate: 0
@@ -14,7 +14,7 @@ backlog:
 
 # スプリントバックログ
 
-**スプリント**: SPRINT-002
+**スプリント**: SPRINT-003
 **プロジェクト**: cursor-times-agent
 **日付**: 2026-02-11
 **ステータス**: completed
@@ -23,7 +23,7 @@ backlog:
 
 ## スプリント目標
 
-> cursor-times-agentを「git clone → deploy → 即利用可能」な単体完結パッケージに再構成し、チームメンバーへの手軽な展開を実現する。cursor-agents-skillsへの同期デプロイもオプションとして提供する。
+> Slack投稿のメンバー識別を確実にする。slack-fast-mcpの`display_name`パラメータを有効化し、投稿末尾に`#member_name`ハッシュタグが自動付与されるようにする。
 
 ---
 
@@ -31,35 +31,33 @@ backlog:
 
 | # | タスクID | タスク名 | SP | 優先度 | 担当 | ステータス | 備考 |
 |---|---------|---------|-----|--------|------|-----------|------|
-| 1 | T401 | Subagent定義・references/ をリポジトリに追加 | 2 | P0 | sprint-coder | ✅ | agent/ 新設 + skill/references/ 追加（TRY-014対応） |
-| 2 | T402 | ハードコードパスのポータブル化 | 3 | P0 | sprint-coder | ✅ | 全ファイルのハードコードパスを ~/.cursor/... / GitHub URL に統一 |
-| 3 | T403 | デプロイスクリプト作成 (scripts/deploy.sh) | 3 | P0 | sprint-coder | ✅ | リポジトリ → ~/.cursor/ 一括デプロイ自動化 |
-| 4 | T404 | cursor-agents-skills同期スクリプト作成 | 2 | P1 | sprint-coder | ✅ | オプション: cursor-agents-skillsリポジトリへの同期・diff確認付き |
-| 5 | T405 | README.md / docs 更新 | 2 | P1 | sprint-documenter | ✅ | 単体セットアップ手順・アーキテクチャ図更新 |
-| 6 | T406 | tasks.md / milestones.md 更新 | 1 | P1 | sprint-documenter | ✅ | Phase 5・M5追加、集計値再計算 |
+| 1 | T601 | slack-fast-mcp バイナリ再ビルド（display_name対応） | 1 | P0 | sprint-coder | ✅ | make build → v0.1.0-12-gbea5df3 |
+| 2 | T602 | display_name連携の動作テスト・Slack投稿確認 | 2 | P0 | sprint-coder | ✅ | CLI経由テスト成功、#sprint-coderハッシュタグ自動付与確認 |
+| 3 | T603 | ドキュメント更新（バージョン要件・トラブルシュート） | 2 | P1 | sprint-documenter | ✅ | integration guide・ERROR_HANDLING にバージョン要件追記 |
+| 4 | T604 | tasks.md / milestones.md 管理ドキュメント更新 | 1 | P1 | sprint-documenter | ✅ | Phase 7・M7追加、集計値再計算 |
 
 ### SP集計
 
 | 項目 | 値 |
 |------|-----|
-| 計画SP合計 | 13 |
-| 完了SP合計 | 13 |
+| 計画SP合計 | 6 |
+| 完了SP合計 | 6 |
 | SP消化率 | 100% |
-| タスク数 | 6 / 6 |
+| タスク数 | 4 / 4 |
 
 ### 粒度チェック
 
-- [x] SP合計 ≤ 21（推奨: 5〜13）→ 13 SP
-- [x] タスク数 ≤ 10（推奨: 3〜7）→ 6件
-- [x] 推定所要時間 ≤ 4時間（推奨: 15分〜2時間）→ 1.5〜2時間
+- [x] SP合計 ≤ 21（推奨: 5〜13）→ 6 SP
+- [x] タスク数 ≤ 10（推奨: 3〜7）→ 4件
+- [x] 推定所要時間 ≤ 4時間（推奨: 15分〜2時間）→ 30〜45分
 
 ---
 
 ## 入力元
 
-- **milestones.md**: M1-M4完了、M5新設予定
-- **tasks.md**: T001-T305完了（20タスク）、Phase 5タスク追加予定
-- **前回Try**: TRY-014（references/ 一元化）→ T401で対応
+- **milestones.md**: M1-M6完了（100%）、M7新設予定
+- **tasks.md**: T001-T506完了（32タスク）、Phase 7タスク追加予定
+- **前回Try**: TRY-024（メンバー別投稿の検証）→ T602で対応
 
 ---
 

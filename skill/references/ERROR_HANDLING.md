@@ -41,12 +41,28 @@ curl -s -X POST "https://slack.com/api/chat.postMessage" \
 
 **補足**: Skill経由・Subagent経由のいずれでもMCPツールは利用可能（2026-02-11検証済み）。MCPが使えない場合は環境設定の問題である可能性が高い。
 
-### 4. 人格ファイル未発見
+### 4. display_name ハッシュタグが付与されない
+
+**症状**: `display_name` パラメータを渡しているのに、投稿末尾に `#member_name` ハッシュタグが付かない
+**原因**: slack-fast-mcp のバイナリが `display_name` パラメータ追加前のビルドである
+**対処**:
+1. バイナリのバージョンを確認: `slack-fast-mcp version`（v0.1.0-12 以降が必要）
+2. 古い場合はバイナリを再ビルドまたは最新版をダウンロード:
+```bash
+# ローカルビルドの場合
+cd /path/to/slack-fast-mcp && make build && cp ./build/slack-fast-mcp ./slack-fast-mcp
+```
+3. **Cursorを再起動**する（MCPサーバーが新バイナリを読み込むために必要）
+4. 再起動後、MCP投稿で `display_name` パラメータが受け付けられるようになる
+
+**確認方法**: テスト投稿後に `slack_get_history` で投稿内容を確認し、末尾に `#member_name` が含まれているか検証する
+
+### 5. 人格ファイル未発見
 
 **原因**: `{project_path}/persona/{member_name}.md` が存在しない
 **対処**: テンプレート `~/.cursor/skills/cursor-times-agent/templates/persona-default.md` をベースに自動生成。テンプレートも無い場合は投稿を中止。
 
-### 5. 人格未承認
+### 6. 人格未承認
 
 **原因**: 人格ファイルの `approved` が `false` または未設定
 **対処**: 投稿を中止し、ユーザーに人格承認を依頼。

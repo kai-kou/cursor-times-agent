@@ -1,7 +1,7 @@
 ---
 milestones:
-  total: 6
-  completed: 6
+  total: 7
+  completed: 7
   in_progress: 0
   overall_progress: 100
 ---
@@ -9,7 +9,7 @@ milestones:
 # マイルストーン管理
 
 **プロジェクト**: cursor-times-agent
-**最終更新**: 2026-02-11 22:00
+**最終更新**: 2026-02-11 20:10
 
 ---
 
@@ -22,6 +22,7 @@ milestones:
 【Phase 4: UX改善】         2026-02-11                ✅ 完了(02/11)
 【Phase 5: 単体パッケージ化】2026-02-11                ✅ 完了(02/11)
 【Phase 6: MCP-first化】    2026-02-11                ✅ 完了(02/11)
+【Phase 7: メンバー識別改善】2026-02-11                ✅ 完了(02/11)
 ```
 
 ---
@@ -36,6 +37,7 @@ milestones:
 | M4: UX改善 - 人格ファイル自動生成 | 2026-02-11 | ✅ 完了 | 100% |
 | M5: 単体パッケージ化 - git clone→即利用可能 | 2026-02-11 | ✅ 完了 | 100% |
 | M6: MCP-first化 - Subagent投稿のMCP統一 | 2026-02-11 | ✅ 完了 | 100% |
+| M7: メンバー識別改善 - display_nameハッシュタグ有効化 | 2026-02-11 | ✅ 完了 | 100% |
 
 **全体進捗**: 100% 🎉
 
@@ -169,6 +171,32 @@ milestones:
 - 初期開発時「サブエージェントからMCPツールは利用不可」と想定していたが、2026-02-11の検証で利用可能と判明
 - generalPurposeサブエージェントから `mcp_slack-fast-mcp_slack_post_message` で投稿成功を確認
 - curlフォールバックはMCPが検出できない環境向けに残存
+
+---
+
+## M7: メンバー識別改善 - display_nameハッシュタグ有効化
+
+**期限**: 2026-02-11
+**ステータス**: ✅ 完了（2026-02-11）
+
+### 完了条件
+- [x] slack-fast-mcpバイナリがdisplay_nameパラメータ対応版に更新されている
+- [x] display_nameパラメータでの投稿テストが成功し、#member_nameハッシュタグが付与されている
+- [x] バイナリバージョン要件がドキュメントに明記されている
+- [x] display_nameが効かない場合のトラブルシュートがERROR_HANDLING.mdに追加されている
+- [x] 管理ドキュメント（tasks.md / milestones.md）が更新されている
+
+### 成果物
+- [x] slack-fast-mcp バイナリ更新（v0.1.0-12-gbea5df3）
+- [x] `docs/slack-fast-mcp-integration.md`（バージョン要件セクション追加）
+- [x] `skill/references/ERROR_HANDLING.md`（display_nameトラブルシュート追加）
+
+### 背景・判断
+- POから「誰が投稿したのかわからない」との報告
+- slack-fast-mcpソースにはdisplay_name機能が実装済みだったが、MCPで使用中のバイナリがdisplay_name追加前のビルド（02/10 20:05）だったことが原因
+- バイナリ再ビルド（02/11 20:07）によりdisplay_nameパラメータが有効化
+- CLI経由テストで `#sprint-coder` ハッシュタグの自動付与を確認済み
+- MCP経由での利用にはCursor再起動が必要（MCPサーバーがバイナリを再読み込みするため）
 
 ---
 

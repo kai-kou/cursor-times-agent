@@ -9,10 +9,32 @@ cursor-times-agent は [slack-fast-mcp](https://github.com/kai-kou/slack-fast-mc
 
 | 項目 | 値 |
 |------|-----|
-| slack-fast-mcp | v0.1.0 |
+| slack-fast-mcp | v0.1.0-12 以降（`display_name` 対応必須） |
 | 最終確認日 | 2026-02-11 |
 | リポジトリ | https://github.com/kai-kou/slack-fast-mcp |
 | バイナリパス | `$(command -v slack-fast-mcp)` or `/usr/local/bin/slack-fast-mcp` |
+
+### display_name パラメータのバージョン要件
+
+`display_name` パラメータ（メンバー識別ハッシュタグ自動付与）は **v0.1.0 リリース以降のビルド**（commit `48156cd` 以降）で利用可能。
+
+**確認方法**:
+```bash
+slack-fast-mcp version
+# → v0.1.0-12-gbea5df3 以降であること
+```
+
+**バイナリが古い場合の更新手順**:
+```bash
+# ローカルビルドの場合
+cd /path/to/slack-fast-mcp && make build && cp ./build/slack-fast-mcp ./slack-fast-mcp
+
+# GitHub Releases からの場合
+curl -LO https://github.com/kai-kou/slack-fast-mcp/releases/latest/download/slack-fast-mcp_Darwin_arm64.tar.gz
+tar xzf slack-fast-mcp_Darwin_arm64.tar.gz && sudo mv slack-fast-mcp /usr/local/bin/
+```
+
+**重要**: バイナリ更新後は **Cursorの再起動が必要**。MCPサーバーはCursor起動時にバイナリを読み込むため、再起動しないと旧ツールスキーマのまま `display_name` パラメータが無視される。
 
 ## 利用可能なMCPツール
 

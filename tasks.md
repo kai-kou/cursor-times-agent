@@ -1,7 +1,7 @@
 ---
 tasks:
-  total: 32
-  completed: 32
+  total: 36
+  completed: 36
   in_progress: 0
   blocked: 0
   overall_progress: 100
@@ -10,7 +10,7 @@ tasks:
 # タスク管理
 
 **プロジェクト**: cursor-times-agent
-**最終更新**: 2026-02-11 22:00
+**最終更新**: 2026-02-11 20:10
 
 ---
 
@@ -34,7 +34,7 @@ tasks:
 
 ## 進捗サマリー
 
-**全体**: 32/32 タスク完了 (100%) 🎉
+**全体**: 36/36 タスク完了 (100%) 🎉
 
 ### フェーズ別進捗
 - Phase 1（基盤構築）: 7/7 完了 (100%) ✅
@@ -43,10 +43,11 @@ tasks:
 - Phase 4（UX改善）: 5/5 完了 (100%) ✅
 - Phase 5（単体パッケージ化）: 6/6 完了 (100%) ✅
 - Phase 6（MCP-first化）: 6/6 完了 (100%) ✅
+- Phase 7（メンバー識別改善）: 4/4 完了 (100%) ✅
 
 ### 優先度別
-- P0: 14/14 完了
-- P1: 12/12 完了
+- P0: 16/16 完了
+- P1: 14/14 完了
 - P2: 5/5 完了
 - P3: 1/1 完了
 
@@ -135,6 +136,19 @@ tasks:
 | T504 | 連携ドキュメント更新 | P1 | ✅ | 02/11 | 完了: slack-fast-mcp-integration.md をMCP-first前提に全面改訂 |
 | T505 | ERROR_HANDLING.md更新 | P2 | ✅ | 02/11 | 完了: MCP Tool Not Foundのフロー改善、検証結果の補足追記 |
 | T506 | tasks.md / milestones.md 更新 | P2 | ✅ | 02/11 | 完了: Phase 6・M6追加、集計値再計算 |
+
+---
+
+## Phase 7: メンバー識別改善
+
+### 期間: 2026-02-11
+
+| ID | タスク | 優先度 | ステータス | 期限 | 備考 |
+|----|--------|--------|-----------|------|------|
+| T601 | slack-fast-mcp バイナリ再ビルド（display_name対応） | P0 | ✅ | 02/11 | 完了: ローカルリポジトリで make build、v0.1.0-12-gbea5df3にアップデート |
+| T602 | display_name連携の動作テスト・Slack投稿確認 | P0 | ✅ | 02/11 | 完了: CLI経由でdisplay_name=sprint-coderテスト、#sprint-coderハッシュタグ自動付与を確認 |
+| T603 | ドキュメント更新（バージョン要件・トラブルシュート） | P1 | ✅ | 02/11 | 完了: integration guide・ERROR_HANDLINGにバイナリバージョン要件・再ビルド手順・Cursor再起動注意点を追記 |
+| T604 | tasks.md / milestones.md 管理ドキュメント更新 | P1 | ✅ | 02/11 | 完了: Phase 7・M7追加、集計値再計算 |
 
 ---
 
