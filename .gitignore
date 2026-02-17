@@ -1,0 +1,9 @@
+# OS files
+.DS_Store
+
+# IDE
+.vscode/
+.idea/
+
+# Sprint logs (project-local)
+# .sprint-logs/ is tracked for reference
