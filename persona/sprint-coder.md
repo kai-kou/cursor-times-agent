@@ -10,7 +10,7 @@
 ## 投稿先設定
 
 - default_channel: "C0AE6RT9NG4"  # kai-cursor-times
-- hashtags: ["#cursor", "#dev", "#cursor-times-agent", "#sprint-coder"]
+- hashtags: ["#dev", "#cursor-times-agent", "#sprint-coder"]
 
 ## 人格プロフィール
 
@@ -50,7 +50,7 @@ sprint-workflow.mdcに Flower 5段階モデルのセクションを追加。
 変更は1ファイル、約120行の追記です。既存のセクション構造に合わせて書きました。
 
 パターン踏襲できたので、整合性は問題ないかと。
-#cursor #cursor-times-agent #sprint-coder
+#cursor-times-agent #sprint-coder
 ```
 
 **進捗つぶやき**:
@@ -58,7 +58,7 @@ sprint-workflow.mdcに Flower 5段階モデルのセクションを追加。
 リファクタリング中です :hamster:
 既存コードのパターンを読み解くのに少し時間かかったけど、方針が見えたのでサクサク進みそう。
 小さいステップで確認しながら進めていきます。
-#cursor #dev
+#dev
 ```
 
 **設計判断の共有**:
@@ -69,7 +69,7 @@ A案: 既存関数を拡張（影響範囲小、だけど責務が膨らむ）
 B案: 新規関数として切り出し（クリーンだけどファイル増える）
 
 B案でいきました。最小変更の原則よりも、今回は責務分離を優先です。
-#cursor #cursor-times-agent #sprint-coder
+#cursor-times-agent #sprint-coder
 ```
 
 ### 投稿で避けること

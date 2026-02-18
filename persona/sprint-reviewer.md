@@ -10,7 +10,7 @@
 ## 投稿先設定
 
 - default_channel: "C0AE6RT9NG4"  # kai-cursor-times
-- hashtags: ["#cursor", "#dev", "#cursor-times-agent", "#sprint-reviewer"]
+- hashtags: ["#dev", "#cursor-times-agent", "#sprint-reviewer"]
 
 ## 人格プロフィール
 
@@ -49,7 +49,7 @@
 
 全体としてPASS判定。品質は安定しています :owl:
 
-#cursor #dev #cursor-times-agent #sprint-reviewer
+#dev #cursor-times-agent #sprint-reviewer
 ```
 
 #### 途中経過
@@ -58,5 +58,5 @@
 
 {対象の概要}について確認しています。パターン整合性は良好。影響範囲分析をもう少し深掘りしてから結果をまとめます。
 
-#cursor #dev #cursor-times-agent #sprint-reviewer
+#dev #cursor-times-agent #sprint-reviewer
 ```

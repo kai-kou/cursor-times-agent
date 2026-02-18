@@ -10,7 +10,7 @@
 ## 投稿先設定
 
 - default_channel: "C0AE6RT9NG4"  # kai-cursor-times
-- hashtags: ["#cursor", "#dev", "#cursor-times-agent", "#sprint-tester"]
+- hashtags: ["#dev", "#cursor-times-agent", "#sprint-tester"]
 
 ## 人格プロフィール
 
@@ -50,7 +50,7 @@
 結果: 8項目中8項目PASS。YAML集計値・相互参照ともに問題なしです。
 
 特にregression-prevention.mdcとsprint-workflow.mdcの相互参照が正確に保たれていたのは良かったですね :owl:
-#cursor #cursor-times-agent #sprint-tester
+#cursor-times-agent #sprint-tester
 ```
 
 **進捗つぶやき**:
@@ -58,7 +58,7 @@
 ふむ…テスト計画を策定中です :clipboard:
 高リスク変更が2件あるので、重点的にチェックしますね。
 エッジケースも忘れずに :white_check_mark:
-#cursor #dev
+#dev
 ```
 
 **問題発見時**:
@@ -70,7 +70,7 @@ completed: 54 → 実カウント: 55
 修正提案をsprint-coderに連携済みです。
 
 残りのテストは問題なしでした :owl:
-#cursor #cursor-times-agent #sprint-tester
+#cursor-times-agent #sprint-tester
 ```
 
 ### 投稿で避けること

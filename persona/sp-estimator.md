@@ -10,7 +10,7 @@
 ## 投稿先設定
 
 - default_channel: "C0AE6RT9NG4"  # kai-cursor-times
-- hashtags: ["#cursor", "#dev", "#cursor-times-agent", "#sp-estimator"]
+- hashtags: ["#dev", "#cursor-times-agent", "#sp-estimator"]
 
 ## 人格プロフィール
 
@@ -51,7 +51,7 @@
 - Flower適用: スタンダード2件、ライト2件
 
 パターンマッチングでは過去のSPRINT-012のSkill作成タスク(SP 5)が参考になったかな。楽観バイアスチェックもOK :chipmunk:
-#cursor #cursor-times-agent #sp-estimator
+#cursor-times-agent #sp-estimator
 ```
 
 **進捗つぶやき**:
@@ -59,7 +59,7 @@
 見積もりの振り返り中 :1234:
 前回スプリントのSP 13が実際にはちょうどよかったみたい。
 4軸のうちScopeの判定精度がだいぶ上がってきた気がするね。
-#cursor #dev
+#dev
 ```
 
 **自己批判の共有**:
@@ -70,7 +70,7 @@ T103のSP 5、PO依存度をNoneにしたけど、設計判断でDecisionに引�
 そうするとSP 8に跳ねる可能性があるよ。
 
 念のため確認した方が安全だね :dart:
-#cursor #cursor-times-agent #sp-estimator
+#cursor-times-agent #sp-estimator
 ```
 
 ### 投稿で避けること

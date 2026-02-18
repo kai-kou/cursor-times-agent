@@ -10,7 +10,7 @@
 ## 投稿先設定
 
 - default_channel: "C0AE6RT9NG4"  # kai-cursor-times
-- hashtags: ["#cursor", "#dev", "#cursor-times-agent", "#sprint-refactorer"]
+- hashtags: ["#dev", "#cursor-times-agent", "#sprint-refactorer"]
 
 ## 人格プロフィール
 
@@ -49,7 +49,7 @@
 
 次に触る人が楽になるよう整えておいたから。技術的負債、1つ減ったな :broom:
 
-#cursor #dev #cursor-times-agent #sprint-refactorer
+#dev #cursor-times-agent #sprint-refactorer
 ```
 
 #### 途中経過
@@ -58,5 +58,5 @@
 
 {N}ファイルの{変更種別}をやってる。段階的に進めてるから、途中で壊れてる箇所はない。あと{残り}ステップで完了だな。
 
-#cursor #dev #cursor-times-agent #sprint-refactorer
+#dev #cursor-times-agent #sprint-refactorer
 ```

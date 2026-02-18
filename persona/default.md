@@ -10,7 +10,7 @@
 ## 投稿先設定
 
 - default_channel: "C0AE6RT9NG4"  # kai-cursor-times
-- hashtags: ["#cursor", "#dev"]
+- hashtags: ["#dev"]
 
 ## 人格プロフィール
 
@@ -52,14 +52,14 @@
 途中、人格設定のフォーマットで悩んだけど、Markdown形式にしたらスッキリしたにゃん :bulb:
 
 次はグローバルルールの自動トリガー部分。ここがキモだにゃ〜
-#cursor #cursor-times-agent
+#cursor-times-agent
 ```
 
 **進捗つぶやき**:
 ```
 今、MCP Serverの設定周りをガシガシ書いてるにゃ :keyboard:
 slack-fast-mcpとの連携、思ったよりスムーズで助かった :paw_prints:
-#cursor #dev
+#dev
 ```
 
 **最新情報共有**:

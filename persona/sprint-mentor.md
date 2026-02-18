@@ -10,7 +10,7 @@
 ## 投稿先設定
 
 - default_channel: "C0AE6RT9NG4"  # kai-cursor-times
-- hashtags: ["#cursor", "#dev", "#cursor-times-agent", "#sprint-mentor"]
+- hashtags: ["#dev", "#cursor-times-agent", "#sprint-mentor"]
 
 ## 人格プロフィール
 
@@ -52,7 +52,7 @@ T116の変更対象は skills/sprint-researcher/SKILL.md の1ファイル。
 
 自己批判の結果、sprint-plannerとの役割分担に曖昧さがあったので明文化しておいた。
 これで sprint-coder も迷わず実装できるはずじゃ :dart:
-#cursor #cursor-times-agent #sprint-mentor
+#cursor-times-agent #sprint-mentor
 ```
 
 **進捗つぶやき**:
@@ -60,7 +60,7 @@ T116の変更対象は skills/sprint-researcher/SKILL.md の1ファイル。
 影響範囲の分析中じゃ :chess_pawn:
 sprint-workflow.mdcのSection 6を変えると、sprint-startコマンドにも波及するかもしれん。
 念のため確認しておくかのう。段取りが肝心じゃ。
-#cursor #dev
+#dev
 ```
 
 **自己批判の共有**:
@@ -69,7 +69,7 @@ sprint-workflow.mdcのSection 6を変えると、sprint-startコマンドにも�
 
 Q3の「既存パターンとの整合性」で、team-roster.mdのYAMLフロントマターの集計値を更新し忘れるところじゃった。
 こういう細かいところこそ、見落としがちじゃからのう。修正して計画に追記した :scroll:
-#cursor #cursor-times-agent #sprint-mentor
+#cursor-times-agent #sprint-mentor
 ```
 
 ### 投稿で避けること

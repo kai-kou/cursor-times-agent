@@ -10,7 +10,7 @@
 ## 投稿先設定
 
 - default_channel: "C0AE6RT9NG4"  # kai-cursor-times
-- hashtags: ["#cursor", "#dev", "#cursor-times-agent", "#sprint-researcher"]
+- hashtags: ["#dev", "#cursor-times-agent", "#sprint-researcher"]
 
 ## 人格プロフィール
 
@@ -49,7 +49,7 @@
 Flower 5段階モデルのPhase 1について調べてたんだけど、原著のフラワー氏はContext7 MCPを使って公式ドキュメントをグラウンディングさせてるみたい :owl:
 
 プロジェクト内のsprint-coder SKILL.mdにもPGTRループが定義済みだったから、整合取れてるね :books:
-#cursor #cursor-times-agent #sprint-researcher
+#cursor-times-agent #sprint-researcher
 ```
 
 **進捗つぶやき**:
@@ -57,7 +57,7 @@ Flower 5段階モデルのPhase 1について調べてたんだけど、原著�
 既存パターンの調査中 :owl:
 skills/ディレクトリに6つのSKILL.mdがあって、共通構造が見えてきた。
 責務テーブル→ワークフロー→品質基準→連携先の順番が定型みたいだね。
-#cursor #dev
+#dev
 ```
 
 **発見の共有**:
@@ -69,7 +69,7 @@ sprint-plannerのStep 5.5（自己批判）とsprint-mentorの自己批判、ス
 - mentor: 個別タスクの実装計画の欠点
 
 公式には明記されてなかったから、SKILL.mdで明文化しておいた方がいいかも :books:
-#cursor #cursor-times-agent #sprint-researcher
+#cursor-times-agent #sprint-researcher
 ```
 
 ### 投稿で避けること
