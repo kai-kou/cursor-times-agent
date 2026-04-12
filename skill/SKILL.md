@@ -1,6 +1,6 @@
 ---
 name: cursor-times-agent
-description: タスク完了時にセッション振り返り・所感をSlack分報に自動投稿するエージェント。「タスク完了」「作業完了」「振り返り投稿」「分報投稿」「timesに投稿」と言われたら使用。slack-fast-mcp MCPサーバーを利用してSlack投稿する。プロジェクトごとの仮想スクラムチームメンバー（AI Agent）の人格に基づいて投稿可能。
+description: タスク完了時にセッション振り返り・所感をSlack分報に自動投稿するエージェント。「タスク完了」「作業完了」「振り返り投稿」「分報投稿」「timesに投稿」と言われたら使用。claude.ai Slack MCPを利用してSlack投稿する。プロジェクトごとの仮想スクラムチームメンバー（AI Agent）の人格に基づいて投稿可能。
 ---
 
 # Cursor Times Agent - AI自動分報投稿エージェント
@@ -11,8 +11,7 @@ description: タスク完了時にセッション振り返り・所感をSlack�
 
 ## 前提条件
 
-- slack-fast-mcp MCPサーバーが設定済みであること
-- `~/.cursor/mcp.json` の env に `SLACK_BOT_TOKEN` の値が**直接記載**されていること
+- claude.ai Slack MCP が設定済みであること
 - 投稿先チャンネルにBotが招待済みであること
 
 ## 入力パラメータ
@@ -170,17 +169,16 @@ Step 0 で読み込んだ人格設定に基づいて投稿文を生成：
 
 ### Step 4: Slack投稿
 
-slack-fast-mcp MCPサーバーの `slack_post_message` ツールを使用して投稿：
+claude.ai Slack MCPの `mcp__claude_ai_Slack__slack_send_message` ツールを使用して投稿：
 
 ```
-slack_post_message を使用:
-- channel: 入力パラメータの channel、または人格設定ファイルの default_channel（チャンネルIDを使用すること）
+mcp__claude_ai_Slack__slack_send_message を使用:
+- channel_id: 入力パラメータの channel、または人格設定ファイルの default_channel（チャンネルIDを使用すること）
 - message: Step 3 で生成した投稿文
-- display_name: member_name（自動で末尾に #member_name が付与される）
 ```
 
 **重要: チャンネル指定はチャンネルID（例: C0AE6RT9NG4）を使用すること。**
-チャンネル名（例: kai-cursor-times）ではslack-fast-mcp経由で `channel_not_found` エラーが発生する。
+チャンネル名（例: kai-cursor-times）では `channel_not_found` エラーが発生する。
 
 **投稿後の確認**:
 - 投稿が成功したことを確認（`ok: true` を確認）
@@ -221,8 +219,8 @@ slack_post_message を使用:
 
 | エラー | 対処 |
 |--------|------|
-| slack-fast-mcp未設定 | セットアップガイド（https://github.com/kai-kou/cursor-times-agent/blob/main/docs/setup-guide.md）を案内 |
-| invalid_auth | `~/.cursor/mcp.json` の env で SLACK_BOT_TOKEN にトークン値が直接設定されているか確認。`${ENV_VAR}` 形式の環境変数展開はCursorのMCP設定では非対応 |
+| MCP未設定 | claude.ai Slack MCP が設定済みか確認する |
+| invalid_auth | claude.ai Slack MCP の認証状態を確認する |
 | channel_not_found | チャンネル名ではなくチャンネルIDを使用する。Slack APIの `conversations.list` で正しいIDを取得すること |
 | 人格ファイル未発見 | default.mdをテンプレートとして `{project_path}/persona/{member_name}.md` を自動生成。テンプレートも無い場合は投稿スキップ |
 | チャンネル未設定 | 人格設定ファイルの `default_channel` にチャンネルIDを設定、または呼び出し時に `channel` パラメータを指定 |

@@ -93,16 +93,14 @@ session_summaryに含まれる技術キーワードでWebSearchを実行し、�
 
 #### 方法1: MCP投稿（推奨）
 
-`slack_post_message` MCPツールを使用して投稿する：
+`mcp__claude_ai_Slack__slack_send_message` MCPツールを使用して投稿する：
 
-- `channel`: 入力パラメータの `channel`、または人格設定の `default_channel`（チャンネルID）
+- `channel_id`: 入力パラメータの `channel`、または人格設定の `default_channel`（チャンネルID）
 - `message`: Step 2 で生成した投稿文
-- `display_name`: `member_name`（自動で末尾に `#member_name` が付与される）
 
 **重要**:
 - チャンネル指定は**チャンネルID**（例: `C0AE6RT9NG4`）を使用すること
 - レスポンスの `ok` フィールドで成功を確認する
-- `display_name` パラメータにより、slack-fast-mcp が自動でメンバー識別タグ `#member_name` を付与する（手動付与は不要）
 
 #### 方法2: curlフォールバック（MCPが利用できない場合のみ）
 
